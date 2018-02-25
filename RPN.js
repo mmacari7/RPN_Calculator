@@ -10,35 +10,36 @@ var infixExpression = prompt("Enter a simple math expression to be calculated: "
 var queue = infixExpression.toString().replace(not_In_Bomdas, "").match(in_Bomdas);
 
 while (queue === null) {
-    infixExpression = prompt('\nTry Again\nEnter a simple math expression to be calculated: ');
+    infixExpression = prompt('Try Again Enter a simple math expression to be calculated: ');
     queue = infixExpression.toString().replace(not_In_Bomdas, "").match(in_Bomdas);
 }
 console.log(queue);
 
 
-var operators = [];
-var operands = [];
-var topNum, nextNum, answer, t;
+//
+//
+// var operators = [];
+// var operands = [];
+// var topNum, nextNum, answer, t;
+//
+// var infixToPostfix = function(postQ,callback)
+//     {
+//
+//     callback();
+//     }
+//
+// var postfixSolve = function(postQ)
+//     {
+//     while (postQ != [])
+//         {
+//         t = postQ[0];
+//         postQ = postQ[1:];
+//         if (t is a number token)
+//         }
+//     }
+//
+// infixToPostfix(postQ,function() {
+//     console.log('solution to inToPost')
+// });
+//
 
-var infixToPostfix = function(postQ,callback)
-    {
-
-    callback();
-    }
-
-var postfixSolve = function(postQ)
-    {
-    while (postQ != [])
-        {
-        t = postQ[0];
-        postQ = postQ[1:];
-        if (t is a number token)
-        }
-    }
-
-infixToPostfix(postQ,function() {
-    console.log('solution to inToPost')
-});
-
-
-//Test Push
