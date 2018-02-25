@@ -4,7 +4,7 @@
 var prompt = require("prompt-sync")();
 
 var not_In_Bomdas = /[^-\d.()*/%+POW]+/g; //This regex is used to replace all non-bomdas characters in a string to ""
-var in_Bomdas = /\d+(\.\d+)?|[-+()*/%POW]/g; //This regex is used to match all bomdas characters and put them in an array
+var in_Bomdas = /\d+(\.\d+)?|[-+()*/%]|POW/g; //This regex is used to match all bomdas characters and put them in an array
 
 var infixExpression = prompt("Enter a simple math expression to be calculated: ");
 var queue = infixExpression.toString().replace(not_In_Bomdas, "").match(in_Bomdas);
