@@ -39,3 +39,6 @@ var postfixSolve = function(postQ)
 infixToPostfix(postQ,function() {
     console.log('solution to inToPost')
 });
+
+
+//Test Push
