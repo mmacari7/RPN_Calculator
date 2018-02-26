@@ -129,12 +129,13 @@ function postfixSolve (postQ) {                 //Post fix evaluation
                      break;
                  case '%':
                      if(topNum == 0){
-                         return("Error: Cannot divide by 0, invalid Expression")
+                         return("Error: Cannot modulo by 0, invalid Expression")
                      }
                      answer = nextNum % topNum;
                      break;
                  case 'POW':
                      answer = Math.pow(nextNum, topNum);
+                     break;
              }
              eval.push(answer);
          }
@@ -154,7 +155,7 @@ function main() {                   //Main loop for RPN calculator
         else
             var postfixQ = infixToPostFix(infixQ);
         outputPostfix(postfixQ);
-        console.log(postfixSolve(postfixQ));
+        console.log(postfixSolve(postfixQ).toFixed(2));
     }
 }
 
