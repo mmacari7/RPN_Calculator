@@ -4,9 +4,9 @@
 var prompt = require("prompt-sync")();
 
 function getInput() {
-    var in_Bomdas = /\d+(\.\d+)?|[-+()*/^%]|POW/g; //This regex is used to match all bomdas characters and put them in an array
+    var in_Bomdas = /\d+(\.\d+)?|[-+()*/%]|POW/g; //This regex is used to match all bomdas characters and put them in an array
 
-    var infixExpression = prompt("Enter a simple math expression to be calculated or quit to quit: ");
+    var infixExpression = prompt("Enter a simple math expression to be calculated or 'quit' to quit: ");
     var queue = infixExpression.toString().replace(/\s/g, "").match(in_Bomdas);     //Creates array queue with our math
 
     if (infixExpression === 'quit' || infixExpression === 'q')
@@ -22,9 +22,6 @@ function getInput() {
 
     return queue;
 };
-
-//console.log(getInput());
-
 
 function checkValidParentheses(queue){
     var parenthesesCount = 0;
@@ -45,11 +42,11 @@ function checkValidParentheses(queue){
         return(true);
     }
 }
-
+/*
 function isOperand(char){
     //var letters = /^[A-Za-z]+$/;  //Do we want there to be letters in the infix expression?
-    var nums = /^[0-9]+$/;
-    if(/*char.match(letters) ||*/ char.match(nums)){
+    var nums = /^\d+(\.\d+)?$/;
+    if(char.match(nums)){
         return(true);
     }
     else{
@@ -70,38 +67,34 @@ function isOperator(op){
             return(false);
     }
 }
-
+*/
 function precedence(op){
-    if(op === '+' || op === '-'){
+    if(op === '+' || op === '-')
         return(1);
-    }
-    if(op === '*' || op === '/' || op === '%'){
+    else if(op === '*' || op === '/' || op === '%')
         return(2);
-    }
-    if(op === '^'){
+    else if(op === 'POW')
         return(3);
-    }
-    else{
+    else
         return(-1);
-    }
 }
-
 
 function infixToPostFix(infixQ){
     var postfixQ = [];
     var stack = [];
-
-    for(var i = 0; i < infixQ.length; i++){
-        if(isOperand(infixQ[i])) {                      //If value is an operand push to the output
-            postfixQ.push(infixQ[i]);
+    var t = '';
+    while(infixQ.length !== 0){
+        t = infixQ.shift();
+        if(/^\d+(\.\d+)?$/.test(t)) {                      //If value is an operand push to the output
+            postfixQ.push(t);
         }
         else if(stack.length === 0) {
-            stack.push(infixQ[i]);
+            stack.push(t);
         }
-        else if(infixQ[i] === '('){                       //If next value is a open parentheses push it to the stack
-            stack.push(infixQ[i]);
+        else if(t === '('){                       //If next value is a open parentheses push it to the stack
+            stack.push(t);
         }
-        else if(infixQ[i] === ')'){
+        else if(t === ')'){
             while(stack.length > 0 && stack[stack.length-1] != '('){    //If its a closing parentheses, and the stack is not empty and it does not have an opening one on top
                 postfixQ.push(stack.pop());                               //Push the popped value from stack to the output
             }
@@ -113,10 +106,10 @@ function infixToPostFix(infixQ){
             }
         }
         else{
-            while(stack.length > 0 && (precedence(infixQ[i]) <= precedence(stack[stack.length-1]))){     //push value from stack to output so long as it has precidence
+            while(stack.length > 0 && (precedence(t) <= precedence(stack[stack.length-1]))){     //push value from stack to output so long as it has precidence
                 postfixQ.push(stack.pop());
             }
-            stack.push(infixQ[i]);                   //All else just push to the stack the queue
+            stack.push(t);                   //All else just push to the stack the queue
         }
 
     }
@@ -127,23 +120,47 @@ function infixToPostFix(infixQ){
 
 }
 
-// var postfixSolve = function(postQ)
-//     {
-//     while (postQ != [])
-//         {
-//         t = postQ[0];
-//         postQ = postQ[1:];
-//         if (t is a number token)
-//         }
-//     }
-//
-// infixToPostfix(postQ,function() {
-//     console.log('solution to inToPost')
-// });
-//
+function postfixSolve (postQ) {
+    var eval = [];
+    var t =  '';
+    var topNum, nextNum, answer;
+    while (postQ.length !== 0) {
+        // console.log(eval);
+         t = postQ.shift();
+         if (/^\d+(\.\d+)?$/.test(t)) {
+             //console.log("adding number to eval");
+             eval.push(parseFloat(t));  //Convert string to number and push onto stack
+         }
+         else {
+             //console.log("operand onto the stack")
+             topNum = eval.pop();   //Get operand and remove it from stack
+             nextNum = eval.pop();  //Get operand and remove it from stack
+
+             switch (t) {
+                 case '+':
+                     answer = nextNum + topNum;
+                     break;
+                 case '-':
+                     answer = nextNum - topNum;
+                     break;
+                 case '*':
+                     answer = nextNum * topNum;
+                     break;
+                 case '/':
+                     answer = nextNum / topNum;
+                     break;
+                 case '%':
+                     answer = nextNum % topNum;
+                     break;
+             }
+             eval.push(answer);
+         }
+    }
+    return eval.pop();
+}
 
 function outputPostfix(postfixQ) {
-    console.log(postfixQ.join(' '));
+    console.log("The postfix expression is:", postfixQ.join(' '));
 }
 
 function main() {
@@ -154,7 +171,7 @@ function main() {
         else
             var postfixQ = infixToPostFix(infixQ);
         outputPostfix(postfixQ);
-        //postfixSolve(postfixQ);
+        console.log(postfixSolve(postfixQ));
     }
 }
 
