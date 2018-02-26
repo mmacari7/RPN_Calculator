@@ -6,16 +6,15 @@ var prompt = require("prompt-sync")();
 function getInput() {
     var in_Bomdas = /\d+(\.\d+)?|[-+()*/%]|POW/g; //This regex is used to match all bomdas characters and put them in an array
 
-    var infixExpression = prompt("Enter a simple math expression to be calculated or 'quit' to quit: ");
-    var queue = infixExpression.toString().replace(/\s/g, "").match(in_Bomdas);     //Creates array queue with our math
 
-    if (infixExpression === 'quit' || infixExpression === 'q')
-        return 'quit';
+    do {
+        var infixExpression = prompt("Enter a simple math expression to be calculated or 'quit' to quit: ");
+        var queue = infixExpression.toString().replace(/\s/g, "").match(in_Bomdas);     //Creates array queue with our math
 
-    while ((queue === null || !checkValidParentheses(queue)) && (infixExpression !== 'quit' || infixExpression !== 'q')) {
-        infixExpression = prompt('\nTry Again!\n Enter a simple math expression to be calculated: ');
-        queue = infixExpression.toString().replace(/\s/g, "").match(in_Bomdas);
+        if (infixExpression === 'quit' || infixExpression === 'q')
+            return 'quit';
     }
+    while ((queue === null || !checkValidParentheses(queue)) && (infixExpression !== 'quit' || infixExpression !== 'q'))
 
     if (infixExpression === 'quit' || infixExpression === 'q')
         return 'quit';
@@ -148,7 +147,7 @@ function main() {
         else
             var postfixQ = infixToPostFix(infixQ);
         outputPostfix(postfixQ);
-        console.log(postfixSolve(postfixQ));
+        console.log("The solution is:", postfixSolve(postfixQ));
     }
 }
 
