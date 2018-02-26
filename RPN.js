@@ -12,8 +12,8 @@ function getInput() {
     if (infixExpression === 'quit' || infixExpression === 'q')
         return 'quit';
 
-    while ((queue === null || !checkValidParentheses(queue)) && (infixExpression !== 'quit' || infixExpression !== 'q')) {
-        infixExpression = prompt('\nTry Again!\n Enter a simple math expression to be calculated: ');
+    while ((queue === null || !checkValidParentheses(queue)) && (infixExpression !== 'quit' && infixExpression !== 'q')) {
+        infixExpression = prompt("Try Again! Enter a simple math expression to be calculated or type 'quit' to quit: ");
         queue = infixExpression.toString().replace(/\s/g, "").match(in_Bomdas);
     }
 
@@ -23,7 +23,7 @@ function getInput() {
     return queue;
 };
 
-function checkValidParentheses(queue){
+function checkValidParentheses(queue){                  //Function for checking parentheses balance
     var parenthesesCount = 0;
     for(i = 0; i < queue.length; i++){
         if(queue[i] == '('){
@@ -34,8 +34,8 @@ function checkValidParentheses(queue){
         }
     }
 
-    if(parenthesesCount != 0){
-        console.log("Mismatching Parentheses.\n");
+    if(parenthesesCount != 0){                              //Checks if the parentheses are balanced
+        console.log("Error: Mismatching Parentheses.\n");
         return(false);
     }
     else{
@@ -43,7 +43,7 @@ function checkValidParentheses(queue){
     }
 }
 
-function precedence(op){
+function precedence(op){                        //Returns precedence value for operators
     if(op === '+' || op === '-')
         return(1);
     else if(op === '*' || op === '/' || op === '%')
@@ -54,7 +54,7 @@ function precedence(op){
         return(-1);
 }
 
-function infixToPostFix(infixQ){
+function infixToPostFix(infixQ){                //Infix to postFix conversion
     var postfixQ = [];
     var stack = [];
     var t = '';
@@ -95,7 +95,7 @@ function infixToPostFix(infixQ){
 
 }
 
-function postfixSolve (postQ) {
+function postfixSolve (postQ) {                 //Post fix evaluation
     var eval = [];
     var t =  '';
     var topNum, nextNum, answer;
@@ -122,9 +122,15 @@ function postfixSolve (postQ) {
                      answer = nextNum * topNum;
                      break;
                  case '/':
+                     if(topNum == 0){
+                         return("Error: Cannot divide by 0, invalid Expression")
+                     }
                      answer = nextNum / topNum;
                      break;
                  case '%':
+                     if(topNum == 0){
+                         return("Error: Cannot divide by 0, invalid Expression")
+                     }
                      answer = nextNum % topNum;
                      break;
                  case 'POW':
@@ -137,10 +143,10 @@ function postfixSolve (postQ) {
 }
 
 function outputPostfix(postfixQ) {
-    console.log("The postfix expression is:", postfixQ.join(' '));
+    console.log("The postfix expression is:", postfixQ.join(' '));          //Function to output our postfix expression
 }
 
-function main() {
+function main() {                   //Main loop for RPN calculator
     while(true) {
         var infixQ = getInput();
         if (infixQ === 'quit')
@@ -152,4 +158,4 @@ function main() {
     }
 }
 
-main();
+main();             //Calls main function
