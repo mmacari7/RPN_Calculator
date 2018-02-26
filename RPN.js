@@ -119,14 +119,21 @@ function postfixSolve (postQ) {                 //Post fix evaluation
 }
 
 function main() {                   //Main loop for RPN calculator
-    while(true) {
+    while (true) {
         var infixQ = getInput();
         if (infixQ === 'quit')
             return; // This exits the program
         else
             var postfixQ = infixToPostFix(infixQ);
+
         console.log("The postfix expression is:", postfixQ.join(' '));
-        console.log("The solution is: ", postfixSolve(postfixQ).toFixed(2));
+        var solution = postfixSolve(postfixQ);
+        if (typeof(solution) == 'string') {
+            console.log(solution);
+        }
+        else {
+            console.log("The solution is :", solution.toFixed(2));
+        }
     }
 }
 
