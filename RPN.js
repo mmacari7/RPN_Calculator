@@ -42,32 +42,7 @@ function checkValidParentheses(queue){
         return(true);
     }
 }
-/*
-function isOperand(char){
-    //var letters = /^[A-Za-z]+$/;  //Do we want there to be letters in the infix expression?
-    var nums = /^\d+(\.\d+)?$/;
-    if(char.match(nums)){
-        return(true);
-    }
-    else{
-        return(false);
-    }
-}
 
-function isOperator(op){
-    switch(op){
-        case '+':
-        case '*':
-        case '-':
-        case '/':
-        case '^':
-        case '%':
-            return(true);
-        default:
-            return(false);
-    }
-}
-*/
 function precedence(op){
     if(op === '+' || op === '-')
         return(1);
@@ -152,6 +127,8 @@ function postfixSolve (postQ) {
                  case '%':
                      answer = nextNum % topNum;
                      break;
+                 case 'POW':
+                     answer = Math.pow(nextNum, topNum);
              }
              eval.push(answer);
          }
